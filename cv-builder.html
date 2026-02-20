@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProCV - Premium Resume Builder Online</title>
+    <meta name="description" content="Build professional, beginner, or technical resumes instantly. Free online CV maker with live preview and PDF download.">
+    
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%BC%3C/text%3E%3C/svg%3E">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    
+    <style>
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+        @media print {
+            body { background: white !important; }
+            .no-print { display: none !important; }
+            .print-area { 
+                width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-shadow: none !important;
+                transform: none !important;
+            }
+        }
+
+        .a4-paper {
+            width: 100%;
+            max-width: 210mm;
+            min-height: 297mm;
+            background: white;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans h-screen overflow-hidden flex flex-col">
+
+    <nav class="bg-white border-b border-gray-200 h-16 flex-shrink-0 flex items-center justify-between px-6 no-print z-10">
+        <div class="flex items-center gap-3">
+            <div class="bg-blue-600 text-white p-2 rounded-lg shadow-sm">
+                <i class="fa-solid fa-file-invoice text-xl"></i>
+            </div>
+            <span class="text-2xl font-extrabold text-gray-800 tracking-tight">ProCV</span>
+        </div>
+        <div class="flex gap-4 items-center">
+            <a href="https://json-formatter-beautifier.vercel.app/" target="_blank" class="hidden md:block text-sm text-gray-500 hover:text-blue-600 font-semibold transition-colors"><i class="fa-solid fa-code mr-1"></i> JSON Formatter</a>
+            <button onclick="window.print()" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow-md transition-all flex items-center gap-2">
+                <i class="fa-solid fa-download"></i> Download PDF
+            </button>
+        </div>
+    </nav>
+
+    <div class="flex-1 flex overflow-hidden">
+        
+        <div class="w-full lg:w-[45%] xl:w-[40%] bg-gray-50 overflow-y-auto flex flex-col justify-between no-print relative">
+            
+            <div class="p-6 md:p-10">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
+                    <h1 class="text-3xl font-bold text-gray-900">Build Your Resume</h1>
+                    
+                    <div class="relative w-full md:w-auto">
+                        <select id="cvTemplateSelector" onchange="loadCVTemplate()" class="appearance-none w-full bg-white border border-blue-300 hover:bg-blue-50 text-blue-700 text-sm font-bold rounded-lg shadow-sm px-4 py-2.5 pr-10 cursor-pointer outline-none transition-all focus:ring-2 focus:ring-blue-500">
+                            <option value="" disabled selected>Load Trending Template</option>
+                            <option value="software">💻 Software Engineer</option>
+                            <option value="marketing">📈 Digital Marketer</option>
+                            <option value="data">📊 Data Analyst</option>
+                            <option value="designer">🎨 Graphic Designer</option>
+                            <option value="manager">👔 Project Manager</option>
+                            <option value="nurse">🩺 Registered Nurse</option>
+                            <option value="sales">🤝 Sales Executive</option>
+                            <option value="teacher">📚 High School Teacher</option>
+                            <option value="finance">💰 Accountant / Finance</option>
+                        </select>
+                        <i class="fa-solid fa-chevron-down absolute right-4 top-3.5 text-blue-500 text-sm pointer-events-none"></i>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6 transition-all hover:shadow-md">
+                    <h2 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Personal Details</h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">First Name</label>
+                            <input type="text" id="fnameIn" oninput="updateCV()" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="John">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Last Name</label>
+                            <input type="text" id="lnameIn" oninput="updateCV()" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="Doe">
+                        </div>
+                        <div class="col-span-2">
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Professional Title</label>
+                            <input type="text" id="jobIn" oninput="updateCV()" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="e.g. Software Engineer">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Email</label>
+                            <input type="email" id="emailIn" oninput="updateCV()" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="john.doe@example.com">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 mb-1">Phone / Location</label>
+                            <input type="text" id="phoneIn" oninput="updateCV()" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="+1 234 567 8900">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6 transition-all hover:shadow-md">
+                    <h2 class="text-lg font-bold text-gray-800 mb-2 border-b pb-2">Professional Summary</h2>
+                    <p class="text-xs text-gray-500 mb-4">Write 2-4 short & energetic sentences to interest the reader.</p>
+                    <textarea id="aboutIn" oninput="updateCV()" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all h-28 resize-y" placeholder="e.g. Dedicated professional with a proven track record..."></textarea>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6 transition-all hover:shadow-md">
+                    <h2 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Employment History</h2>
+                    <div class="space-y-4">
+                        <div class="grid grid-cols-2 gap-4">
+                            <input type="text" id="expRoleIn" oninput="updateCV()" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="Job Title">
+                            <input type="text" id="expCompIn" oninput="updateCV()" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="Company Name">
+                            <input type="text" id="expDateIn" oninput="updateCV()" class="col-span-2 w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="Start & End Date (e.g. Jan 2022 - Present)">
+                        </div>
+                        <textarea id="expDescIn" oninput="updateCV()" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all h-36 resize-y" placeholder="Describe your responsibilities and achievements (Bullet points recommended)..."></textarea>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6 transition-all hover:shadow-md">
+                    <h2 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Education</h2>
+                    <div class="grid grid-cols-2 gap-4">
+                        <input type="text" id="eduDegIn" oninput="updateCV()" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="Degree / Certificate">
+                        <input type="text" id="eduUniIn" oninput="updateCV()" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="School / University">
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-10 transition-all hover:shadow-md">
+                    <h2 class="text-lg font-bold text-gray-800 mb-2 border-b pb-2">Skills</h2>
+                    <p class="text-xs text-gray-500 mb-4">Choose 5-8 core skills. (Separate by commas)</p>
+                    <input type="text" id="skillsIn" oninput="updateCV()" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="e.g. Leadership, HTML, Problem Solving">
+                </div>
+            </div>
+
+            <footer class="bg-white border-t border-gray-200 p-6 text-center">
+                <div class="flex justify-center gap-6 mb-4 text-sm font-semibold text-gray-500">
+                    <a href="#" class="hover:text-blue-600 transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-blue-600 transition-colors">Terms of Service</a>
+                    <a href="#" class="hover:text-blue-600 transition-colors">Contact Us</a>
+                </div>
+                <p class="text-xs text-gray-400">&copy; 2026 ProCV Builder. All rights reserved.</p>
+            </footer>
+
+        </div>
+
+        <div class="hidden lg:flex lg:w-[55%] xl:w-[60%] bg-gray-800 justify-center overflow-y-auto p-10 no-print relative">
+            
+            <div class="a4-paper print-area p-10 md:p-14 text-gray-800" id="cvContent">
+                
+                <div class="flex justify-between items-end border-b-[3px] border-gray-900 pb-6 mb-8">
+                    <div>
+                        <h1 class="text-5xl font-light text-gray-900 tracking-tight" style="font-family: Georgia, serif;">
+                            <span id="fnameOut" class="font-bold">JOHN</span> <span id="lnameOut">DOE</span>
+                        </h1>
+                        <p id="jobOut" class="text-blue-700 font-bold tracking-widest uppercase text-sm mt-3">Professional Title</p>
+                    </div>
+                    <div class="text-right text-xs text-gray-600 space-y-1.5 font-medium">
+                        <p id="emailOut">john.doe@example.com</p>
+                        <p id="phoneOut">+1 234 567 8900</p>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <h3 class="text-sm font-bold uppercase tracking-widest text-gray-900 mb-3 border-b border-gray-200 pb-1">Professional Profile</h3>
+                    <p id="aboutOut" class="text-sm text-gray-700 leading-relaxed">Highly motivated professional ready to contribute to a dynamic team. A detailed summary of your career goals, strengths, and achievements will appear here as you type.</p>
+                </div>
+
+                <div class="mb-8">
+                    <h3 class="text-sm font-bold uppercase tracking-widest text-gray-900 mb-3 border-b border-gray-200 pb-1">Employment History</h3>
+                    <div class="mb-4">
+                        <div class="flex justify-between items-baseline mb-1">
+                            <h4 class="font-bold text-gray-900 text-base"><span id="expRoleOut">Job Title</span> <span class="text-gray-400 font-normal">at</span> <span id="expCompOut">Company Name</span></h4>
+                            <span id="expDateOut" class="text-xs text-gray-500 font-bold bg-gray-100 px-2 py-1 rounded">Jan 2022 - Present</span>
+                        </div>
+                        <p id="expDescOut" class="text-sm text-gray-700 leading-relaxed whitespace-pre-line mt-2">Describe your daily tasks, leadership roles, and major achievements. Use bullet points for better readability.</p>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <h3 class="text-sm font-bold uppercase tracking-widest text-gray-900 mb-3 border-b border-gray-200 pb-1">Education</h3>
+                    <div class="flex justify-between items-baseline">
+                        <h4 class="font-bold text-gray-900" id="eduDegOut">Degree Name</h4>
+                        <span id="eduUniOut" class="text-sm text-gray-600 font-medium">University / Institution Name</span>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="text-sm font-bold uppercase tracking-widest text-gray-900 mb-4 border-b border-gray-200 pb-1">Core Competencies</h3>
+                    <div id="skillsOut" class="grid grid-cols-2 gap-y-2 gap-x-4">
+                        <span class="text-sm text-gray-800 font-medium flex items-center gap-2"><div class="w-1.5 h-1.5 bg-blue-600 rounded-full"></div> Professional Skill 1</span>
+                        <span class="text-sm text-gray-800 font-medium flex items-center gap-2"><div class="w-1.5 h-1.5 bg-blue-600 rounded-full"></div> Professional Skill 2</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 9 TRENDING TEMPLATES DATABASE (No User Names Included)
+        const cvTemplates = {
+            software: {
+                fname: "Michael", lname: "Brown", job: "Full Stack Software Engineer",
+                email: "michael.b.dev@example.com", phone: "San Francisco, CA | +1 555-0302",
+                about: "Detail-oriented Software Engineer specializing in building scalable web applications. Proficient in frontend and backend technologies. Passionate about writing clean, maintainable code and solving complex algorithmic challenges.",
+                expRole: "Software Engineer", expComp: "Tech Solutions API", expDate: "Jan 2021 - Present",
+                expDesc: "• Developed RESTful APIs using Node.js and Express, serving 1M+ monthly requests.\n• Rebuilt legacy frontend using React and Tailwind CSS, improving load times by 40%.\n• Implemented CI/CD pipelines to automate testing and deployment.",
+                eduDeg: "B.S. Computer Science", eduUni: "California Institute of Technology",
+                skills: "JavaScript, React.js, Node.js, Python, SQL/NoSQL, Git, AWS, REST APIs"
+            },
+            marketing: {
+                fname: "Emily", lname: "Davis", job: "Digital Marketing Specialist",
+                email: "emily.d.market@example.com", phone: "New York, NY | +1 555-0100",
+                about: "Creative and data-driven Digital Marketer with 4 years of experience in SEO, SEM, and social media strategy. Proven ability to increase web traffic, generate quality leads, and boost overall brand awareness through targeted campaigns.",
+                expRole: "Digital Marketing Manager", expComp: "Growth Media LLC", expDate: "Jun 2020 - Present",
+                expDesc: "• Executed SEO strategies that increased organic search traffic by 150% in 12 months.\n• Managed a monthly ad budget of $50k across Google Ads and Meta platforms.\n• Analyzed campaign performance using Google Analytics to optimize ROI.",
+                eduDeg: "B.A. Marketing & Communications", eduUni: "New York University",
+                skills: "SEO/SEM, Google Analytics, Social Media Strategy, Content Creation, Email Marketing"
+            },
+            data: {
+                fname: "Chris", lname: "Wilson", job: "Data Analyst",
+                email: "chris.data@example.com", phone: "Austin, TX | +1 555-0899",
+                about: "Analytical and detail-oriented Data Analyst with a strong background in statistics and data modeling. Experienced in transforming raw data into actionable business insights using SQL, Python, and advanced data visualization tools.",
+                expRole: "Senior Data Analyst", expComp: "FinTech Analytics", expDate: "Feb 2021 - Present",
+                expDesc: "• Designed dynamic Tableau dashboards to visualize key performance indicators (KPIs) for executive teams.\n• Wrote complex SQL queries to extract and clean data from databases with millions of rows.\n• Built predictive models in Python that improved sales forecasting accuracy by 20%.",
+                eduDeg: "B.S. Statistics & Data Science", eduUni: "University of Texas",
+                skills: "Python, SQL, Tableau, Data Cleaning, Statistical Analysis, Excel, Machine Learning Basics"
+            },
+            designer: {
+                fname: "Sarah", lname: "Taylor", job: "Graphic / UI/UX Designer",
+                email: "sarah.designs@example.com", phone: "Seattle, WA | +1 555-0403",
+                about: "Award-winning Designer with 6+ years of experience in visual storytelling and brand identity. Expert in translating complex concepts into compelling, user-friendly, and aesthetically pleasing digital interfaces.",
+                expRole: "Lead Visual Designer", expComp: "Aura Creative Agency", expDate: "Aug 2019 - Present",
+                expDesc: "• Designed wireframes and high-fidelity prototypes for client apps using Figma.\n• Created engaging social media graphics that increased client engagement by 30%.\n• Redesigned the agency's core branding guidelines, standardizing assets.",
+                eduDeg: "B.F.A. Graphic Design", eduUni: "Rhode Island School of Design",
+                skills: "Figma, Adobe Illustrator, Photoshop, UI/UX Design, Branding, Typography"
+            },
+            manager: {
+                fname: "David", lname: "Anderson", job: "Project Manager",
+                email: "d.anderson.pm@example.com", phone: "Chicago, IL | +1 555-0201",
+                about: "Certified Scrum Master and Project Manager with over 8 years of experience leading cross-functional teams to deliver enterprise software solutions on time and under budget. Highly skilled in Agile methodologies and risk management.",
+                expRole: "Senior IT Project Manager", expComp: "Nexus Tech Solutions", expDate: "Mar 2018 - Present",
+                expDesc: "• Managed a portfolio of 15+ concurrent software projects with a total budget of $5M.\n• Facilitated daily stand-ups, sprint planning, and retrospective meetings for Agile teams.\n• Mitigated project risks by implementing strict QA processes before deployment.",
+                eduDeg: "MBA / Certified Scrum Master (CSM)", eduUni: "University of Chicago",
+                skills: "Agile/Scrum, Jira/Confluence, Risk Management, Team Leadership, Budgeting"
+            },
+            nurse: {
+                fname: "Jessica", lname: "Martinez", job: "Registered Nurse (RN)",
+                email: "j.martinez.rn@example.com", phone: "Miami, FL | +1 555-0777",
+                about: "Compassionate and highly skilled Registered Nurse with 5 years of experience in critical care and emergency settings. Dedicated to providing exceptional patient-centered care and advocating for patient well-being.",
+                expRole: "ER Registered Nurse", expComp: "City General Hospital", expDate: "May 2020 - Present",
+                expDesc: "• Provided direct care to an average of 15 patients per shift in a fast-paced ER environment.\n• Administered medications, IV fluids, and performed wound care per physician orders.\n• Mentored 10+ newly graduated nursing staff on hospital protocols and patient care standards.",
+                eduDeg: "Bachelor of Science in Nursing (BSN)", eduUni: "University of Florida",
+                skills: "Patient Assessment, CPR/BLS Certified, IV Administration, Triage, Empathy"
+            },
+            sales: {
+                fname: "Daniel", lname: "Thomas", job: "Senior Sales Executive",
+                email: "daniel.sales@example.com", phone: "Boston, MA | +1 555-0666",
+                about: "Dynamic and results-driven Sales Executive with a proven track record of exceeding quotas in competitive B2B markets. Expert in building lasting client relationships, negotiating contracts, and closing high-value deals.",
+                expRole: "Regional Sales Manager", expComp: "Enterprise Software Corp.", expDate: "Oct 2019 - Present",
+                expDesc: "• Exceeded annual sales quota by 120% in 2023, generating $2.5M in new revenue.\n• Developed and executed a strategic territory plan to penetrate untapped enterprise markets.\n• Conducted software demonstrations for C-level executives and negotiated complex contracts.",
+                eduDeg: "B.A. Business Administration", eduUni: "Boston University",
+                skills: "B2B Sales, CRM (Salesforce), Negotiation, Lead Generation, Account Management"
+            },
+            teacher: {
+                fname: "Amanda", lname: "White", job: "High School Science Teacher",
+                email: "a.white.edu@example.com", phone: "Denver, CO | +1 555-0999",
+                about: "Passionate and innovative Educator with 7 years of experience teaching Biology and Chemistry. Committed to creating engaging, inclusive lesson plans that inspire students to explore STEM fields and achieve academic excellence.",
+                expRole: "Science Educator", expComp: "Westside High School", expDate: "Aug 2017 - Present",
+                expDesc: "• Developed interactive laboratory experiments that improved student test scores by 15%.\n• Integrated educational technology platforms (Canvas, Google Classroom) into daily curriculum.\n• Supervised the after-school Science Club, leading students to state-level competition victories.",
+                eduDeg: "M.Ed. Curriculum & Instruction", eduUni: "University of Colorado",
+                skills: "Lesson Planning, Classroom Management, EdTech, Curriculum Development, STEM Education"
+            },
+            finance: {
+                fname: "Robert", lname: "Lee", job: "Certified Public Accountant (CPA)",
+                email: "robert.lee.cpa@example.com", phone: "Philadelphia, PA | +1 555-1122",
+                about: "Detail-oriented Financial Accountant with comprehensive experience in corporate tax preparation, financial reporting, and auditing. Committed to ensuring full regulatory compliance and providing strategic financial advice to maximize profitability.",
+                expRole: "Senior Accountant", expComp: "Global Financial Partners", expDate: "Jan 2019 - Present",
+                expDesc: "• Prepared monthly, quarterly, and annual financial statements for 20+ corporate clients.\n• Conducted internal audits that identified and eliminated $100k in wasteful spending.\n• Reconciled general ledger accounts and managed accounts payable/receivable processes.",
+                eduDeg: "B.S. Accounting / CPA Certified", eduUni: "Penn State University",
+                skills: "Financial Reporting, Tax Preparation, Auditing, QuickBooks, GAAP, Excel (Advanced)"
+            }
+        };
+
+        function loadCVTemplate() {
+            const selector = document.getElementById('cvTemplateSelector');
+            const data = cvTemplates[selector.value];
+            
+            if(data) {
+                document.getElementById('fnameIn').value = data.fname;
+                document.getElementById('lnameIn').value = data.lname;
+                document.getElementById('jobIn').value = data.job;
+                document.getElementById('emailIn').value = data.email;
+                document.getElementById('phoneIn').value = data.phone;
+                document.getElementById('aboutIn').value = data.about;
+                document.getElementById('expRoleIn').value = data.expRole;
+                document.getElementById('expCompIn').value = data.expComp;
+                document.getElementById('expDateIn').value = data.expDate;
+                document.getElementById('expDescIn').value = data.expDesc;
+                document.getElementById('eduDegIn').value = data.eduDeg;
+                document.getElementById('eduUniIn').value = data.eduUni;
+                document.getElementById('skillsIn').value = data.skills;
+                
+                updateCV();
+            }
+        }
+
+        function updateCV() {
+            document.getElementById('fnameOut').innerText = document.getElementById('fnameIn').value || 'JOHN';
+            document.getElementById('lnameOut').innerText = document.getElementById('lnameIn').value || 'DOE';
+            document.getElementById('jobOut').innerText = document.getElementById('jobIn').value || 'Professional Title';
+            document.getElementById('emailOut').innerText = document.getElementById('emailIn').value || 'john.doe@example.com';
+            document.getElementById('phoneOut').innerText = document.getElementById('phoneIn').value || '+1 234 567 8900';
+            
+            document.getElementById('aboutOut').innerText = document.getElementById('aboutIn').value || 'Highly motivated professional ready to contribute to a dynamic team. A detailed summary of your career goals, strengths, and achievements will appear here as you type.';
+            
+            document.getElementById('expRoleOut').innerText = document.getElementById('expRoleIn').value || 'Job Title';
+            document.getElementById('expCompOut').innerText = document.getElementById('expCompIn').value || 'Company Name';
+            document.getElementById('expDateOut').innerText = document.getElementById('expDateIn').value || 'Jan 2022 - Present';
+            document.getElementById('expDescOut').innerText = document.getElementById('expDescIn').value || 'Describe your daily tasks, leadership roles, and major achievements. Use bullet points for better readability.';
+
+            document.getElementById('eduDegOut').innerText = document.getElementById('eduDegIn').value || 'Degree Name';
+            document.getElementById('eduUniOut').innerText = document.getElementById('eduUniIn').value || 'University / Institution Name';
+            
+            const skillsInput = document.getElementById('skillsIn').value;
+            const skillsContainer = document.getElementById('skillsOut');
+            
+            skillsContainer.innerHTML = ''; 
+            if (skillsInput.trim() === "") {
+                skillsContainer.innerHTML = '<span class="text-sm text-gray-800 font-medium flex items-center gap-2"><div class="w-1.5 h-1.5 bg-blue-600 rounded-full"></div> Professional Skill</span>';
+            } else {
+                const skillsArray = skillsInput.split(',');
+                skillsArray.forEach(skill => {
+                    if(skill.trim()) {
+                        const span = document.createElement('span');
+                        span.className = "text-sm text-gray-800 font-medium flex items-center gap-2";
+                        span.innerHTML = `<div class="w-1.5 h-1.5 bg-blue-600 rounded-full flex-shrink-0"></div> <span class="truncate">${skill.trim()}</span>`;
+                        skillsContainer.appendChild(span);
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>
