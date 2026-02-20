@@ -1,26 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ProCV - AI Powered Resume Builder</title>
-    <meta name="description" content="Build professional, beginner, or technical resumes instantly. Free online CV maker with AI Summary Generator and PDF download.">
-    
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%BC%3C/text%3E%3C/svg%3E">
+    <meta name="description"
+        content="Build professional, beginner, or technical resumes instantly. Free online CV maker with AI Summary Generator and PDF download.">
+
+    <link rel="icon"
+        href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%92%BC%3C/text%3E%3C/svg%3E">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-    
+
     <style>
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #f1f5f9; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
 
         @media print {
-            body { background: white !important; }
-            .no-print { display: none !important; }
-            .print-area { 
+            body {
+                background: white !important;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            .print-area {
                 width: 100% !important;
                 margin: 0 !important;
                 padding: 0 !important;
@@ -38,9 +59,11 @@
         }
     </style>
 </head>
+
 <body class="bg-gray-100 font-sans h-screen overflow-hidden flex flex-col">
 
-    <nav class="bg-white border-b border-gray-200 h-16 flex-shrink-0 flex items-center justify-between px-6 no-print z-10">
+    <nav
+        class="bg-white border-b border-gray-200 h-16 flex-shrink-0 flex items-center justify-between px-6 no-print z-10">
         <div class="flex items-center gap-3">
             <div class="bg-blue-600 text-white p-2 rounded-lg shadow-sm">
                 <i class="fa-solid fa-file-invoice text-xl"></i>
@@ -48,23 +71,28 @@
             <span class="text-2xl font-extrabold text-gray-800 tracking-tight">ProCV</span>
         </div>
         <div class="flex gap-4 items-center">
-            <a href="index.html" class="hidden md:block text-sm text-gray-500 hover:text-blue-600 font-semibold transition-colors"><i class="fa-solid fa-code mr-1"></i> JSON Formatter</a>
-            <button onclick="window.print()" class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow-md transition-all flex items-center gap-2">
+            <a href="index.html"
+                class="hidden md:block text-sm text-gray-500 hover:text-blue-600 font-semibold transition-colors"><i
+                    class="fa-solid fa-code mr-1"></i> JSON Formatter</a>
+            <button onclick="window.print()"
+                class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow-md transition-all flex items-center gap-2">
                 <i class="fa-solid fa-download"></i> Download PDF
             </button>
         </div>
     </nav>
 
     <div class="flex-1 flex overflow-hidden">
-        
-        <div class="w-full lg:w-[45%] xl:w-[40%] bg-gray-50 overflow-y-auto flex flex-col justify-between no-print relative">
-            
+
+        <div
+            class="w-full lg:w-[45%] xl:w-[40%] bg-gray-50 overflow-y-auto flex flex-col justify-between no-print relative">
+
             <div class="p-6 md:p-10">
                 <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
                     <h1 class="text-3xl font-bold text-gray-900">Build Your Resume</h1>
-                    
+
                     <div class="relative w-full md:w-auto">
-                        <select id="cvTemplateSelector" onchange="loadCVTemplate()" class="appearance-none w-full bg-white border border-blue-300 hover:bg-blue-50 text-blue-700 text-sm font-bold rounded-lg shadow-sm px-4 py-2.5 pr-10 cursor-pointer outline-none transition-all focus:ring-2 focus:ring-blue-500">
+                        <select id="cvTemplateSelector" onchange="loadCVTemplate()"
+                            class="appearance-none w-full bg-white border border-blue-300 hover:bg-blue-50 text-blue-700 text-sm font-bold rounded-lg shadow-sm px-4 py-2.5 pr-10 cursor-pointer outline-none transition-all focus:ring-2 focus:ring-blue-500">
                             <option value="" disabled selected>Load Trending Template</option>
                             <option value="software">💻 Software Engineer</option>
                             <option value="marketing">📈 Digital Marketer</option>
@@ -76,93 +104,130 @@
                             <option value="teacher">📚 High School Teacher</option>
                             <option value="finance">💰 Accountant / Finance</option>
                         </select>
-                        <i class="fa-solid fa-chevron-down absolute right-4 top-3.5 text-blue-500 text-sm pointer-events-none"></i>
+                        <i
+                            class="fa-solid fa-chevron-down absolute right-4 top-3.5 text-blue-500 text-sm pointer-events-none"></i>
                     </div>
                 </div>
-                
-                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6 transition-all hover:shadow-md">
+
+                <div
+                    class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6 transition-all hover:shadow-md">
                     <h2 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Personal Details</h2>
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 mb-1">First Name</label>
-                            <input type="text" id="fnameIn" oninput="updateCV()" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="John">
+                            <input type="text" id="fnameIn" oninput="updateCV()"
+                                class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                                placeholder="John">
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 mb-1">Last Name</label>
-                            <input type="text" id="lnameIn" oninput="updateCV()" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="Doe">
+                            <input type="text" id="lnameIn" oninput="updateCV()"
+                                class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                                placeholder="Doe">
                         </div>
                         <div class="col-span-2">
                             <label class="block text-xs font-semibold text-gray-600 mb-1">Professional Title</label>
-                            <input type="text" id="jobIn" oninput="updateCV()" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="e.g. Software Engineer">
+                            <input type="text" id="jobIn" oninput="updateCV()"
+                                class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                                placeholder="e.g. Software Engineer">
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 mb-1">Email</label>
-                            <input type="email" id="emailIn" oninput="updateCV()" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="john.doe@example.com">
+                            <input type="email" id="emailIn" oninput="updateCV()"
+                                class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                                placeholder="john.doe@example.com">
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-gray-600 mb-1">Phone / Location</label>
-                            <input type="text" id="phoneIn" oninput="updateCV()" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="+1 234 567 8900">
+                            <input type="text" id="phoneIn" oninput="updateCV()"
+                                class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                                placeholder="+1 234 567 8900">
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6 transition-all hover:shadow-md relative">
+                <div
+                    class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6 transition-all hover:shadow-md relative">
                     <div class="flex justify-between items-center mb-2 border-b pb-2">
                         <h2 class="text-lg font-bold text-gray-800">Professional Summary</h2>
-                        <button onclick="generateAISummary()" id="aiBtn" class="bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white text-xs font-bold py-1.5 px-3 rounded-md shadow-sm flex items-center gap-1.5 transition-all">
+                        <button onclick="generateAISummary()" id="aiBtn"
+                            class="bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white text-xs font-bold py-1.5 px-3 rounded-md shadow-sm flex items-center gap-1.5 transition-all">
                             <i class="fa-solid fa-wand-magic-sparkles"></i> Generate with AI
                         </button>
                     </div>
-                    <p class="text-xs text-gray-500 mb-4">Write 2-4 short sentences, or let AI write it for you based on your job title!</p>
-                    <textarea id="aboutIn" oninput="updateCV()" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all h-28 resize-y" placeholder="e.g. Dedicated professional with a proven track record..."></textarea>
+                    <p class="text-xs text-gray-500 mb-4">Write 2-4 short sentences, or let AI write it for you based on
+                        your job title!</p>
+                    <textarea id="aboutIn" oninput="updateCV()"
+                        class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all h-28 resize-y"
+                        placeholder="e.g. Dedicated professional with a proven track record..."></textarea>
                 </div>
 
-                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6 transition-all hover:shadow-md">
+                <div
+                    class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6 transition-all hover:shadow-md">
                     <h2 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Employment History</h2>
                     <div class="space-y-4">
                         <div class="grid grid-cols-2 gap-4">
-                            <input type="text" id="expRoleIn" oninput="updateCV()" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="Job Title">
-                            <input type="text" id="expCompIn" oninput="updateCV()" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="Company Name">
-                            <input type="text" id="expDateIn" oninput="updateCV()" class="col-span-2 w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="Start & End Date (e.g. Jan 2022 - Present)">
+                            <input type="text" id="expRoleIn" oninput="updateCV()"
+                                class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                                placeholder="Job Title">
+                            <input type="text" id="expCompIn" oninput="updateCV()"
+                                class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                                placeholder="Company Name">
+                            <input type="text" id="expDateIn" oninput="updateCV()"
+                                class="col-span-2 w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                                placeholder="Start & End Date (e.g. Jan 2022 - Present)">
                         </div>
-                        <textarea id="expDescIn" oninput="updateCV()" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all h-36 resize-y" placeholder="Describe your responsibilities and achievements (Bullet points recommended)..."></textarea>
+                        <textarea id="expDescIn" oninput="updateCV()"
+                            class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all h-36 resize-y"
+                            placeholder="Describe your responsibilities and achievements (Bullet points recommended)..."></textarea>
                     </div>
                 </div>
 
-                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6 transition-all hover:shadow-md">
+                <div
+                    class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-6 transition-all hover:shadow-md">
                     <h2 class="text-lg font-bold text-gray-800 mb-4 border-b pb-2">Education</h2>
                     <div class="grid grid-cols-2 gap-4">
-                        <input type="text" id="eduDegIn" oninput="updateCV()" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="Degree / Certificate">
-                        <input type="text" id="eduUniIn" oninput="updateCV()" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="School / University">
+                        <input type="text" id="eduDegIn" oninput="updateCV()"
+                            class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                            placeholder="Degree / Certificate">
+                        <input type="text" id="eduUniIn" oninput="updateCV()"
+                            class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                            placeholder="School / University">
                     </div>
                 </div>
 
-                <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-10 transition-all hover:shadow-md">
+                <div
+                    class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm mb-10 transition-all hover:shadow-md">
                     <h2 class="text-lg font-bold text-gray-800 mb-2 border-b pb-2">Skills</h2>
                     <p class="text-xs text-gray-500 mb-4">Choose 5-8 core skills. (Separate by commas)</p>
-                    <input type="text" id="skillsIn" oninput="updateCV()" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all" placeholder="e.g. Leadership, HTML, Problem Solving">
+                    <input type="text" id="skillsIn" oninput="updateCV()"
+                        class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:bg-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+                        placeholder="e.g. Leadership, HTML, Problem Solving">
                 </div>
             </div>
 
             <footer class="bg-white border-t border-gray-200 p-6 text-center">
                 <div class="flex justify-center gap-6 mb-4 text-sm font-semibold text-gray-500">
-                    <a href="#" class="hover:text-blue-600 transition-colors">Privacy Policy</a>
-                    <a href="#" class="hover:text-blue-600 transition-colors">Terms of Service</a>
-                    <a href="#" class="hover:text-blue-600 transition-colors">Contact Us</a>
+                    <a href="privacy.html" class="hover:text-blue-600 transition-colors">Privacy Policy</a>
+                    <a href="terms.html" class="hover:text-blue-600 transition-colors">Terms of Service</a>
+                    <a href="contact.html" class="hover:text-blue-600 transition-colors">Contact Us</a>
                 </div>
                 <p class="text-xs text-gray-400">&copy; 2026 ProCV Builder. Powered by AI.</p>
             </footer>
         </div>
 
-        <div class="hidden lg:flex lg:w-[55%] xl:w-[60%] bg-gray-800 justify-center overflow-y-auto p-10 no-print relative">
+        <div
+            class="hidden lg:flex lg:w-[55%] xl:w-[60%] bg-gray-800 justify-center overflow-y-auto p-10 no-print relative">
             <div class="a4-paper print-area p-10 md:p-14 text-gray-800" id="cvContent">
-                
+
                 <div class="flex justify-between items-end border-b-[3px] border-gray-900 pb-6 mb-8">
                     <div>
-                        <h1 class="text-5xl font-light text-gray-900 tracking-tight" style="font-family: Georgia, serif;">
+                        <h1 class="text-5xl font-light text-gray-900 tracking-tight"
+                            style="font-family: Georgia, serif;">
                             <span id="fnameOut" class="font-bold">JOHN</span> <span id="lnameOut">DOE</span>
                         </h1>
-                        <p id="jobOut" class="text-blue-700 font-bold tracking-widest uppercase text-sm mt-3">Professional Title</p>
+                        <p id="jobOut" class="text-blue-700 font-bold tracking-widest uppercase text-sm mt-3">
+                            Professional Title</p>
                     </div>
                     <div class="text-right text-xs text-gray-600 space-y-1.5 font-medium">
                         <p id="emailOut">john.doe@example.com</p>
@@ -171,34 +236,55 @@
                 </div>
 
                 <div class="mb-8">
-                    <h3 class="text-sm font-bold uppercase tracking-widest text-gray-900 mb-3 border-b border-gray-200 pb-1">Professional Profile</h3>
-                    <p id="aboutOut" class="text-sm text-gray-700 leading-relaxed">Highly motivated professional ready to contribute to a dynamic team. A detailed summary of your career goals, strengths, and achievements will appear here as you type.</p>
+                    <h3
+                        class="text-sm font-bold uppercase tracking-widest text-gray-900 mb-3 border-b border-gray-200 pb-1">
+                        Professional Profile</h3>
+                    <p id="aboutOut" class="text-sm text-gray-700 leading-relaxed">Highly motivated professional ready
+                        to contribute to a dynamic team. A detailed summary of your career goals, strengths, and
+                        achievements will appear here as you type.</p>
                 </div>
 
                 <div class="mb-8">
-                    <h3 class="text-sm font-bold uppercase tracking-widest text-gray-900 mb-3 border-b border-gray-200 pb-1">Employment History</h3>
+                    <h3
+                        class="text-sm font-bold uppercase tracking-widest text-gray-900 mb-3 border-b border-gray-200 pb-1">
+                        Employment History</h3>
                     <div class="mb-4">
                         <div class="flex justify-between items-baseline mb-1">
-                            <h4 class="font-bold text-gray-900 text-base"><span id="expRoleOut">Job Title</span> <span class="text-gray-400 font-normal">at</span> <span id="expCompOut">Company Name</span></h4>
-                            <span id="expDateOut" class="text-xs text-gray-500 font-bold bg-gray-100 px-2 py-1 rounded">Jan 2022 - Present</span>
+                            <h4 class="font-bold text-gray-900 text-base"><span id="expRoleOut">Job Title</span> <span
+                                    class="text-gray-400 font-normal">at</span> <span id="expCompOut">Company
+                                    Name</span></h4>
+                            <span id="expDateOut"
+                                class="text-xs text-gray-500 font-bold bg-gray-100 px-2 py-1 rounded">Jan 2022 -
+                                Present</span>
                         </div>
-                        <p id="expDescOut" class="text-sm text-gray-700 leading-relaxed whitespace-pre-line mt-2">Describe your daily tasks, leadership roles, and major achievements. Use bullet points for better readability.</p>
+                        <p id="expDescOut" class="text-sm text-gray-700 leading-relaxed whitespace-pre-line mt-2">
+                            Describe your daily tasks, leadership roles, and major achievements. Use bullet points for
+                            better readability.</p>
                     </div>
                 </div>
 
                 <div class="mb-8">
-                    <h3 class="text-sm font-bold uppercase tracking-widest text-gray-900 mb-3 border-b border-gray-200 pb-1">Education</h3>
+                    <h3
+                        class="text-sm font-bold uppercase tracking-widest text-gray-900 mb-3 border-b border-gray-200 pb-1">
+                        Education</h3>
                     <div class="flex justify-between items-baseline">
                         <h4 class="font-bold text-gray-900" id="eduDegOut">Degree Name</h4>
-                        <span id="eduUniOut" class="text-sm text-gray-600 font-medium">University / Institution Name</span>
+                        <span id="eduUniOut" class="text-sm text-gray-600 font-medium">University / Institution
+                            Name</span>
                     </div>
                 </div>
 
                 <div>
-                    <h3 class="text-sm font-bold uppercase tracking-widest text-gray-900 mb-4 border-b border-gray-200 pb-1">Core Competencies</h3>
+                    <h3
+                        class="text-sm font-bold uppercase tracking-widest text-gray-900 mb-4 border-b border-gray-200 pb-1">
+                        Core Competencies</h3>
                     <div id="skillsOut" class="grid grid-cols-2 gap-y-2 gap-x-4">
-                        <span class="text-sm text-gray-800 font-medium flex items-center gap-2"><div class="w-1.5 h-1.5 bg-blue-600 rounded-full"></div> Professional Skill 1</span>
-                        <span class="text-sm text-gray-800 font-medium flex items-center gap-2"><div class="w-1.5 h-1.5 bg-blue-600 rounded-full"></div> Professional Skill 2</span>
+                        <span class="text-sm text-gray-800 font-medium flex items-center gap-2">
+                            <div class="w-1.5 h-1.5 bg-blue-600 rounded-full"></div> Professional Skill 1
+                        </span>
+                        <span class="text-sm text-gray-800 font-medium flex items-center gap-2">
+                            <div class="w-1.5 h-1.5 bg-blue-600 rounded-full"></div> Professional Skill 2
+                        </span>
                     </div>
                 </div>
 
@@ -223,7 +309,7 @@
         function loadCVTemplate() {
             const selector = document.getElementById('cvTemplateSelector');
             const data = cvTemplates[selector.value];
-            if(data) {
+            if (data) {
                 document.getElementById('fnameIn').value = data.fname;
                 document.getElementById('lnameIn').value = data.lname;
                 document.getElementById('jobIn').value = data.job;
@@ -254,16 +340,16 @@
             document.getElementById('expDescOut').innerText = document.getElementById('expDescIn').value || 'Describe your daily tasks, leadership roles, and major achievements. Use bullet points for better readability.';
             document.getElementById('eduDegOut').innerText = document.getElementById('eduDegIn').value || 'Degree Name';
             document.getElementById('eduUniOut').innerText = document.getElementById('eduUniIn').value || 'University / Institution Name';
-            
+
             const skillsInput = document.getElementById('skillsIn').value;
             const skillsContainer = document.getElementById('skillsOut');
-            skillsContainer.innerHTML = ''; 
+            skillsContainer.innerHTML = '';
             if (skillsInput.trim() === "") {
                 skillsContainer.innerHTML = '<span class="text-sm text-gray-800 font-medium flex items-center gap-2"><div class="w-1.5 h-1.5 bg-blue-600 rounded-full"></div> Professional Skill</span>';
             } else {
                 const skillsArray = skillsInput.split(',');
                 skillsArray.forEach(skill => {
-                    if(skill.trim()) {
+                    if (skill.trim()) {
                         const span = document.createElement('span');
                         span.className = "text-sm text-gray-800 font-medium flex items-center gap-2";
                         span.innerHTML = `<div class="w-1.5 h-1.5 bg-blue-600 rounded-full flex-shrink-0"></div> <span class="truncate">${skill.trim()}</span>`;
@@ -276,7 +362,7 @@
         // --- AI SUMMARY GENERATOR LOGIC ---
         async function generateAISummary() {
             const jobTitle = document.getElementById('jobIn').value;
-            const experience = document.getElementById('expDateIn').value; 
+            const experience = document.getElementById('expDateIn').value;
             const aboutBox = document.getElementById('aboutIn');
             const aiBtn = document.getElementById('aiBtn');
 
@@ -300,7 +386,7 @@
 
                 if (response.ok) {
                     aboutBox.value = data.summary;
-                    updateCV(); 
+                    updateCV();
                 } else {
                     alert("Error: " + (data.error || "Failed to generate summary"));
                 }
@@ -315,4 +401,5 @@
         }
     </script>
 </body>
+
 </html>
